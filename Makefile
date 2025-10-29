@@ -3,7 +3,7 @@ CFLAGS = -D_GNU_SOURCE -Wall -Wextra -O2
 LDLIBS = -lsqlite3
 
 TARGET = mtuneup
-OBJ = main.o sql.o utils.o
+OBJ = ./src/main.o ./src/sql.o ./src/utils.o
 
 .PHONY: all clean
 
