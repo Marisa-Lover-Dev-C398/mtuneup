@@ -6,3 +6,4 @@ extern char* data_save_path;
 
 int initpath(void);
 void freepath(void);
+void cleanall_s(int signal);

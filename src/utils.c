@@ -75,6 +75,22 @@ int initpath(void)
     return 1;
 }
 
+int getvideo(const char* url, const char* title)
+{
+  const char* yt-argv[] = { "yt-dlp", "-x", "--audio-format", "mp3", "-o", };
+
+  int status;
+  pid_t pid = fork();
+
+  //signal(SIGINT, SIG_DFL);
+
+  //memo: waitpid, WUNTRACED, execvp, WIFEXITED, WIFSIGNALED, WEXITSTATUS, signal(SIGINT, cleanall_s).
+}
+
+void cleanall_s(int signal){
+  //I'm sleepy.
+}
+
 void freepath()
 {
   free(data_path);
