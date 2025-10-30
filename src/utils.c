@@ -16,6 +16,12 @@ char* data_save_path;
 static char *home = NULL;
 
 
+size_t mari_strlen(const char* str) {
+  const char* p = str;
+  while(*p)  p++;
+  return p - str;
+}
+
 int mkdir_p(const char* path, mode_t mode)
 {
   char *temp = strdup(path);
@@ -47,6 +53,7 @@ int mkdir_p(const char* path, mode_t mode)
 int initpath(void) 
 {
   home = getenv("HOME");
+  printf("strlen-home: %ld\nmari-strlen-home: %ld", strlen(home), mari_strlen(home));
   if (!home) {
     fprintf(stderr, "Error: $HOME is not set\n");
     return 1;
