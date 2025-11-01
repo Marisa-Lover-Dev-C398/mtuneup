@@ -59,10 +59,6 @@ int main(int argc, char* argv[])
 
   signal(SIGINT, cleanall_s);
 
-  initpath();
-//  mkdir_p(data_path, 0755);
-  mkdir_p(data_save_path, 0755);
-
   while((opt = getopt(argc, argv, "hvt:a:k:c:l")) != -1)
   {
     switch(opt)

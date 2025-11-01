@@ -62,16 +62,10 @@ int mkdir_p(const char* path, mode_t mode)
     p++;
   }
 
-  printf("\n\n[mari-mkdir -p %s]\n\n", temp);
-
   while(*p != '\0')
   {
-    printf("%c", *p);
-    fflush(stdout);
-    usleep(350000);
     if(*p == '/'){
       *p = '\0';
-      printf("\n/見つけたよ！(これでmkdirする): %s\n",temp);
       fflush(stdout);
       usleep(350000);
       if(mkdir(temp, mode) == -1 && errno != EEXIST){
@@ -89,7 +83,6 @@ int mkdir_p(const char* path, mode_t mode)
 //    return -1;
 //  }
 
-  printf("最終: %s", temp);
   free(temp);
   return 0;
 }
