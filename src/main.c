@@ -10,17 +10,6 @@
 #include "sql.h"
 #include "utils.h"
 
-typedef struct {
-  bool islocal;
-  char* title;
-  char* comment;
-  int artist_c;
-  char** artist;
-  int keyword_c;
-  char** keyword;
-  char* url;
-} music_info;
-
 music_info* initmusic(void);
 void addartist(music_info* minfo, const char* name);
 void addkeyword(music_info* minfo, const char* name);
@@ -39,7 +28,11 @@ music_info* initmusic(void)
 
 int chkmdata(music_info* minfo)
 {
-  
+  //title artist check islocal
+  if(m->title == NULL || m->artist == NULL) {
+    return 1;
+  }
+  return 0;
 }
 
 void addkeyword(music_info* minfo, const char* name)
@@ -60,6 +53,7 @@ void addartist(music_info* minfo, const char* name)
 
 int main(int argc, char* argv[])
 {
+  int music_id;
   int opt;
   music_info* new_music = initmusic();
 
@@ -106,10 +100,23 @@ int main(int argc, char* argv[])
     return -1;
   }
 
+  if(chkmdata(new_music) == -1) {
+    fprintf(stderr, "%s: missing operand\n", argv[0]);
+    return 1;
+  }
+
+  music_id = getnextid();
+
   initdb();
- // chkmdata();
+
+  if(getvideo(new_music -> url, newmusic -> title) == -1) {
+    fprintf(stderr, "get video failed\n");
+    clearall_exit(1);
+  }
+
+  exec_db(new_music);
   printf("==> add song data\n");
 
-
-  sqlite3_close(db);
+  cleanall();
+  return 0;
 }

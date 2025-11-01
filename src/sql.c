@@ -7,7 +7,6 @@
 
 sqlite3* db;
 
-
 int db_exec_safe(const char* sql)
 {
   char* errmsg;
@@ -33,11 +32,23 @@ int initdb()
   db_exec_safe(SQL_INIT_MAINTABLE);
   db_exec_safe(SQL_INIT_ARTISTTABLE);
   db_exec_safe(SQL_INIT_KEYWORDTABLE);
+  sqlite3_exec(db, "BEGIN EXCLUSIVE;", NULL, NULL, NULL);
   return 0;
 }
 
 int closedb()
 {
+  sqlite3_exec(db, "COMMIT;", NULL, NULL);
   sqlite3_close(db);
   return 0;
+}
+
+int getnextid()
+{
+  
+}
+
+int exec_db(music_info* m)
+{
+
 }

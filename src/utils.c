@@ -15,6 +15,8 @@
 char* data_path = NULL;
 char* data_db_path = NULL;
 char* data_save_path = NULL;
+char* saved_path = NULL;
+
 
 static char *home = NULL;
 
@@ -46,6 +48,7 @@ void freepath(void)
   free(data_path);
   free(data_db_path);
   free(data_save_path);
+  free(saved_path);
 }
 
 
@@ -103,12 +106,11 @@ int initpath(void)
 
 int getvideo(const char* url, const char* title)
 {
-  char* path;
-  if(asprintf(&path, "%s/%s", data_save_path, title) == -1) {
+  if(asprintf(&saved_path, "%s/%s", data_save_path, title) == -1) {
     perror("asprintf");
     return -1;
   }
-  char *const yt_argv[] = { "yt-dlp", "-x", "--audio-format", "mp3", "-o", path, (char*) url};
+  char *const yt_argv[] = { "yt-dlp", "-x", "--audio-format", "mp3", "-o", saved_path, (char*) url};
 
   int status;
   pid_t pid = fork();
@@ -116,8 +118,7 @@ int getvideo(const char* url, const char* title)
   switch (pid) {
     case -1:
       perror("fork");
-      free(path);
-      cleanall_exit(1);
+      return -1;
     case 0:
       signal(SIGINT, SIG_DFL);
       execvp(yt_argv[0], yt_argv);
@@ -136,11 +137,9 @@ int getvideo(const char* url, const char* title)
       }
       else if(WIFSIGNALED(status)){
         fprintf(stderr, "Who killed yt-dlp.\nyt-dlp killed by signal...\n");
-        free(path);
-        cleanall_exit(1);
         return -1;
       }
   }
-  free(path);
+  free(saved_path);
   return -1;
 }
