@@ -117,7 +117,7 @@ int getvideo(const char* url, int music_id)
     perror("asprintf");
     return -1;
   }
-  char *const yt_argv[] = { "yt-dlp", "-x", "--audio-format", "mp3", "-o", saved_path, (char*) url};
+  char *const yt_argv[] = { "yt-dlp", "-x", "--audio-format", "mp3", "-o", saved_path, (char*) url, NULL};
 
   int status;
   pid_t pid = fork();
